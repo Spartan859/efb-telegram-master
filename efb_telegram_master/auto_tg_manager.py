@@ -85,7 +85,7 @@ class AutoTGManager(LocaleMixin):
             return None
 
         chat.link(self.channel.channel_id, tg_chat.id, True)
-        sleep(10)
+        sleep(20)
         self._update_chat_image(tg_chat)
         tg_chats = self.db.get_chat_assoc(slave_uid=utils.chat_id_to_str(chat=chat))
         tg_chat = None
