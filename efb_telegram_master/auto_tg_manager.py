@@ -54,7 +54,7 @@ class AutoTGManager(LocaleMixin):
             return None
 
         auto_create_types = self.tg_config.get('auto_create_tg_group', [])
-        if chat.vendor_specific.get('is_mp') and self.tg_config.get('mq_auto_link_group_id'):
+        if (chat.vendor_specific.get('is_mp') or chat.uid.find('gh')==0) and self.tg_config.get('mq_auto_link_group_id'):
             # 公众号绑定到同一个 TG 群
             mq_tg_group_id = str(self.tg_config.get('mq_auto_link_group_id', ''))
             if not mq_tg_group_id or not len(mq_tg_group_id):
