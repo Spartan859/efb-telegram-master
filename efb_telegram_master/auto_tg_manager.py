@@ -54,7 +54,7 @@ class AutoTGManager(LocaleMixin):
             return None
 
         auto_create_types = self.tg_config.get('auto_create_tg_group', [])
-        if (chat.vendor_specific.get('is_mp') or chat.uid.find('gh')==0) and self.tg_config.get('mq_auto_link_group_id'):
+        if chat.uid.find('gh')==0 and self.tg_config.get('mq_auto_link_group_id'):
             # 公众号绑定到同一个 TG 群
             mq_tg_group_id = str(self.tg_config.get('mq_auto_link_group_id', ''))
             if not mq_tg_group_id or not len(mq_tg_group_id):
@@ -65,7 +65,7 @@ class AutoTGManager(LocaleMixin):
                 return tg_chats[0]
             else:
                 self.logger.debug('could not find TG group with mq_auto_link_group_id')
-        elif (chat.vendor_specific.get('is_mp') and 4 in auto_create_types) or \
+        elif (chat.uid.find('gh')==0 and 4 in auto_create_types) or \
                 (isinstance(chat, ETMPrivateChat) and 1 in auto_create_types) or \
                 (isinstance(chat, ETMGroupChat) and 2 in auto_create_types) or \
                 (isinstance(chat, ETMSystemChat) and 3 in auto_create_types):
@@ -173,7 +173,7 @@ class AutoTGManager(LocaleMixin):
                 return None
 
             target_folder_config = ''
-            if chat.vendor_specific.get('is_mp') and 4 in folder_config.keys():
+            if chat.uid.find('gh')==0 and 4 in folder_config.keys():
                 target_folder_config = folder_config[4]
             elif isinstance(chat, ETMPrivateChat) and 1 in folder_config.keys():
                 target_folder_config = folder_config[1]
@@ -215,7 +215,7 @@ class AutoTGManager(LocaleMixin):
 
     def _array_config_contains_chat_type(self, config_name: str, chat: ETMChatType) -> bool:
         config = self.tg_config.get(config_name, [])
-        if (chat.vendor_specific.get('is_mp') and 4 in config) or \
+        if (chat.uid.find('gh')==0 and 4 in config) or \
                 (isinstance(chat, ETMPrivateChat) and 1 in config) or \
                 (isinstance(chat, ETMGroupChat) and 2 in config) or \
                 (isinstance(chat, ETMSystemChat) and 3 in config):
